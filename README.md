@@ -98,5 +98,5 @@ Hasta que se mejore la organización del arranque, **asegúrate de que la base d
 
 ---
 
-✍️ **Autor:** *[Tu nombre o equipo]*  
+✍️ **Autor:** *Kardiad/Jafet*  
 📦 **Tecnologías:** Docker, Flyway, MySQL
