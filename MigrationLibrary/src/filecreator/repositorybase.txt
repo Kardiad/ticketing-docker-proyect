@@ -1,0 +1,10 @@
+package {{repositoryPackage}};
+
+import org.springframework.data.repository.CrudRepository;
+
+import {{entityPackage}}.{{entity}};
+
+
+public interface {{entity}}RepositoryInterface extends CrudRepository<{{entity}}, Long> {
+
+}

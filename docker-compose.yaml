@@ -1,0 +1,73 @@
+version: '3.9'
+
+services:
+  # 🧰 Backend SpringBoot
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: spring_boot_api
+    restart: always
+    volumes:
+        - ./backend:/app         # 👈 monta todo el código fuente
+       #- ./backend/target/init-0.0.1-SNAPSHOT.jar:/app/app.jar esto es para producción
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=ticketing
+      - DB_USERNAME=ticketing
+      - DB_PASSWORD=secret
+      - INTERNAL_TOKEN=e4f9a39ad51a6f9d53a3b7c2a8b4d1e1c6f7d18b9a8a1d9d2b1e9a6a2a7b3c5f
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+    depends_on:
+      - db
+  # 🌐 Frontend Angular
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: ticketing_angular_frontend
+    # restart: always
+    volumes:
+      - ./frontend:/usr/src/app
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+
+  # 🛢️ Base de datos MySQL
+  db:
+    image: mysql:latest
+    container_name: ticketing_mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ticketing
+      MYSQL_USER: ticketing
+      MYSQL_PASSWORD: secret
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  # 🕊️ Flyway — migraciones de base de datos
+  flyway:
+    image: flyway/flyway:10
+    container_name: ticketing_flyway_migrator
+    depends_on:
+      - db
+    command: 
+      - -url=jdbc:mysql://db:3306/ticketing
+      - -user=ticketing
+      - -password=secret
+      - -locations=filesystem:/flyway/sql
+      - migrate
+    volumes:
+      - ./migrations:/flyway/sql
+    restart: "no"  # Ejecuta y termina
+
+volumes:
+  db_data:

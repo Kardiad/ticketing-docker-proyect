@@ -1,0 +1,28 @@
+# Usa Node LTS estable (compatible con Angular)
+FROM node:20-bullseye
+
+WORKDIR /usr/src/app
+
+# Instala Angular CLI globalmente
+RUN npm install -g @angular/cli
+
+# Copia package.json y package-lock.json si existen
+COPY ./frontend/package*.json ./
+
+# Limpieza y reinstalación para evitar bugs de Rollup
+RUN npm cache clean --force
+RUN npm install --force
+RUN npm install @esbuild/linux-x64 --force
+
+# Copia el resto del código
+COPY ./frontend .
+
+# Expone puerto de desarrollo
+EXPOSE 4200
+
+# Comando por defecto
+# Exponer el puerto de Angular
+EXPOSE 4200
+
+# Mantener el contenedor corriendo sin ejecutar ng serve todavía
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200"]
