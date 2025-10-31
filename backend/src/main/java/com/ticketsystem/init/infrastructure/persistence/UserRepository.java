@@ -45,4 +45,18 @@ public class UserRepository implements UserServiceInterface {
         }
         return null;
     }
+
+    @Override
+    @Transactional
+    public UserDTO findOne(UserDAO user) {
+        User userEntity = this.userRepository.findById(user.getId()).get();
+        if(userEntity != null){
+            return new UserDTO(
+                userEntity.getId(),
+                userEntity.getUsername(),
+                ""
+            );
+        }
+        return null;
+    }
 }

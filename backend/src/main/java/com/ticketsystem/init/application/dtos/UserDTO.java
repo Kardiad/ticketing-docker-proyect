@@ -1,5 +1,7 @@
 package com.ticketsystem.init.application.dtos;
 
+import com.ticketsystem.init.infrastructure.entities.User;
+
 public class UserDTO {
     
     private Long id;
@@ -41,6 +43,12 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserDTO fromEntities(User user){
+        this.id = user.getId();
+        this.username = user.getUsername();
+        return this;
     }
 
 }

@@ -3,49 +3,54 @@ package com.ticketsystem.init.infrastructure.entities;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.lang.String;
-import java.lang.Long;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "proyect")
-public class Proyect {
-	
+@Table(name = "sprint")
+public class Sprint {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "created_by", nullable = true)
-	private Long createdBy;
-	
-	@Column(name = "description", length = 65535, nullable = true)
-	private String description;
+	@Column(name = "created_at", nullable = true)
+	private LocalDateTime createdAt;
 
 	@Column(name = "name", length = 100, nullable = false)
 	private String name;
 
+	@Column(name = "description", length = 65535, nullable = true)
+	private String description;
+
+	@Column(name = "proyect_id", nullable = true)
+	private Long proyectId;
+
 	@Column(name = "status_id", nullable = true)
 	private Long statusId;
+
+	@Column(name = "end_date", nullable = true)
+	private LocalDate endDate;
 
 	@Column(name = "updated_at", nullable = true)
 	private LocalDateTime updatedAt;
 
-	@Column(name = "created_at", nullable = true)
-	private LocalDateTime createdAt;
-
-	public Proyect() {
+	public Sprint() {
 	}
 
-	public Proyect(
-		Long createdBy, 
-		String name, 
-		String description, 
-		Long statusId, 
-		LocalDateTime updatedAt, 
+	public Sprint(			
+		String name,
+		String description,
+		Long proyectId,
+		Long statusId,
+		LocalDate endDate,
+		LocalDateTime updatedAt,
 		LocalDateTime createdAt
-	) {
-		this.createdBy = createdBy;
+	) {		
 		this.name = name;
 		this.description = description;
+		this.proyectId = proyectId;
 		this.statusId = statusId;
+		this.endDate = endDate;
 		this.updatedAt = updatedAt;
 		this.createdAt = createdAt;
 	}
@@ -58,20 +63,20 @@ public class Proyect {
 		this.createdAt = createdAt;
 	}
 
-	public Long getCreatedBy() {
-		return this.createdBy;
-	}
-
-	public void setCreatedBy(Long createdBy) {
-		this.createdBy = createdBy;
-	}
-
 	public String getDescription() {
 		return this.description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public LocalDate getEndDate() {
+		return this.endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
 
 	public Long getId() {
@@ -88,6 +93,25 @@ public class Proyect {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Long getProyectId() {
+		return this.proyectId;
+	}
+
+	public void setProyectId(Long proyectId) {
+		this.proyectId = proyectId;
+	}
+
+	@Column(name = "start_date", nullable = true)
+	private LocalDate startDate;
+
+	public LocalDate getStartDate() {
+		return this.startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
 	}
 
 	public Long getStatusId() {

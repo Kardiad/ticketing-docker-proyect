@@ -6,4 +6,5 @@ import com.ticketsystem.init.domain.entities.UserDAO;
 public interface UserServiceInterface {
     public UserDTO saveUser(UserDAO user);    
     public UserDTO findByUsername(UserDAO user);
+    public UserDTO findOne(UserDAO user);
 }
